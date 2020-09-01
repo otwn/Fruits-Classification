@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  fastapi:
+    build: ./backend
+    image: fruits_backend
+    container_name: fruits_backend
+    restart: unless-stopped
+    volumes:
+      - "./backend/app:/app"
+    ports:
+      - "8000:80"
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.fastapi.rule=Host(`dev.local`) && PathPrefix(`/api`)"
+    #   - "traefik.http.services.fastapi.loadbalancer.server.port=80"
+    #   - "traefik.http.routers.fastapi.entrypoints=web-secured"
+    #   - "traefik.http.routers.fastapi.tls.certresolver=myresolver"
+    networks:
+      - fruits_net
+
+  nuxtjs:
+    build: ./frontend
+    image: fruits_frontend
+    container_name: fruits_frontend
+    restart: unless-stopped
+    ports: 
+      - "3000:3000"
+    # command: "npm run start"
+    volumes:
+      - "./frontend:/usr/src/app"
+    networks:
+      - fruits_net
+
+networks:
+  fruits_net:
+    external: true

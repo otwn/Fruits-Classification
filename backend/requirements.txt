@@ -1,0 +1,7 @@
+fastapi[all]
+jinja2
+numpy==1.18
+pandas
+tensorflow
+keras
+aiofiles
